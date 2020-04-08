@@ -7,7 +7,7 @@ AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([1.11])
 
-AM_SILENT_RULES([yes])
+dnl AM_SILENT_RULES([yes])
 
 AC_PROG_CXX
 
@@ -52,7 +52,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
-PKG_CHECK_MODULES(ABCDE, [glib-2.0 gobject-2.0 gmodule-2.0 gio-2.0 ])
+dnl PKG_CHECK_MODULES(ABCDE, [glib-2.0 gobject-2.0 gmodule-2.0 gio-2.0 ])
 
 
 
@@ -60,7 +60,6 @@ PKG_CHECK_MODULES(ABCDE, [glib-2.0 gobject-2.0 gmodule-2.0 gio-2.0 ])
 AC_OUTPUT([
 Makefile
 po/Makefile.in
-ABCDE_SSM/Makefile
 nsis/mingwbuild
 nsis/ABCDE.nsis
 ])
