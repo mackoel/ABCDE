@@ -13,6 +13,12 @@ else
 MPI_BUILD_TARGET =
 endif
 
+if ENABLE_TEST_BUILD_TARGET
+TEST_BUILD_TARGET = abcde_test
+else
+TEST_BUILD_TARGET =
+endif
+
 SUBDIRS = po
 
 dist_doc_DATA = \
@@ -39,15 +45,18 @@ AM_CFLAGS =\
          -g
 
 bin_PROGRAMS = \
-	abcde $(MPI_BUILD_TARGET)
+	abcde $(MPI_BUILD_TARGET) $(TEST_BUILD_TARGET)
 
-abcde_SOURCES = \
+common_SOURCES = \
         ABCDE_SSM/abcde.cpp \
 	ABCDE_SSM/deep.cpp \
 	ABCDE_SSM/distr.cpp \
-	ABCDE_SSM/main.cpp \
 	ABCDE_SSM/solution.cpp \
 	ABCDE_SSM/run_manager.cpp
+
+abcde_SOURCES = \
+        $(common_SOURCES) \
+	ABCDE_SSM/main.cpp
 
 abcde_HEADERS = \
 	ABCDE_SSM/abcde.h \
@@ -67,12 +76,19 @@ abcde_mpi_SOURCES = $(abcde_SOURCES)
 
 abcde_mpi_HEADERS = $(abcde_HEADERS)
 
+abcde_test_SOURCES = $(common_SOURCES) \
+        test/crossover_test.cpp
+
+abcde_test_HEADERS = $(abcde_HEADERS)
+
 abcdedir = \
         $(includedir)/abcde
 
 abcde_openmpidir = $(abcdedir)
 
 abcde_mpidir = $(abcdedir)
+
+abcde_testdir = $(abcdedir)
 
 abcde_CXXFLAGS = -fPIC \
 		-fopenmp \
@@ -97,6 +113,12 @@ abcde_mpi_CFLAGS = $(abcde_mpi_CXXFLAGS)
 
 abcde_mpi_LDFLAGS = $(abcde_LDFLAGS)
 
+abcde_test_CXXFLAGS = $(abcde_CXXFLAGS)
+
+abcde_test_CFLAGS = $(abcde_test_CXXFLAGS)
+
+abcde_test_LDFLAGS = $(abcde_LDFLAGS)
+
 abcde_LDADD = $(ABCDE_LIBS) \
 	-lboost_filesystem \
 	-lboost_regex \
@@ -107,6 +129,8 @@ abcde_openmpi_LDADD = $(MPI_CLIBS) \
 	$(abcde_LDADD)
 
 abcde_mpi_LDADD = $(abcde_LDADD)
+
+abcde_test_LDADD = $(abcde_LDADD)
 
 if NATIVE_WIN32
 abcde_LDFLAGS += -mwindows

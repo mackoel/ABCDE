@@ -96,11 +96,17 @@ if test x$enable_openmpi_build_target = xyes ; then
 fi
 AM_CONDITIONAL(ENABLE_OPENMPI_BUILD_TARGET, test x$enable_openmpi_build_target = xyes)
 
-dnl Let people enable/disable the OpenMPI stuff.
+dnl Let people enable/disable the MPI stuff.
 AC_ARG_ENABLE(mpi-build-target,
               [  --enable-mpi-build-target  Use mpi-build-target to run on parallel machine [default=no]],
                 enable_mpi_build_target="$enableval", enable_mpi_build_target=no)
 AM_CONDITIONAL(ENABLE_MPI_BUILD_TARGET, test x$enable_mpi_build_target = xyes)
+
+dnl Let people enable/disable the TEST stuff.
+AC_ARG_ENABLE(test-build-target,
+              [  --enable-test-build-target  Use test-build-target to run on parallel machine [default=no]],
+                enable_test_build_target="$enableval", enable_test_build_target=no)
+AM_CONDITIONAL(ENABLE_TEST_BUILD_TARGET, test x$enable_test_build_target = xyes)
 
 AC_OUTPUT([
 Makefile
